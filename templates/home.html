@@ -1,0 +1,15 @@
+<html>
+<body>
+  <ol>
+  {% for pokemon_result in pokemon_results %}
+    <li>
+    	<a href="/pokemon?name={{ pokemon_result.name }}">
+    		<strong>
+    			{{ pokemon_result.name }}
+    		</strong>
+    	</a>
+    </li>
+  {% endfor %}
+  </ol>
+</body>
+</html>
