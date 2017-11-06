@@ -1,6 +1,6 @@
 <html>
 <body>
-  <ol>
+  <ol start="{{ ol_start }}">
   {% for pokemon_result in pokemon_results %}
     <li>
     	<a href="/pokemon?name={{ pokemon_result.name }}">
@@ -11,5 +11,12 @@
     </li>
   {% endfor %}
   </ol>
+  <br>
+  {% if prev_limit_value %}
+  <a href="/?limit={{ prev_limit_value }}&offset={{ prev_offset_value }}"><< Previous</a>
+  {% endif %}
+  {% if next_limit_value %}
+  <a href="/?limit={{ next_limit_value }}&offset={{ next_offset_value }}">>> Next</a>
+  {% endif %}
 </body>
 </html>
