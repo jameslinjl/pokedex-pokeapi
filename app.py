@@ -10,6 +10,7 @@ client = memcache.Client([('127.0.0.1', 11211)])
 
 PAGINATION_DEFAULT_LIMIT = 20
 PAGINATION_DEFAULT_OFFSET = 20
+result_limits = [{'value': 20, 'selected': True}, {'value': 100, 'selected': False}, {'value': 250, 'selected': False}]
 
 def memcached_external_api_get(url):
 	b64_url = base64.b64encode(url)
@@ -26,7 +27,12 @@ def view_pokedex_main():
 
 	url = 'https://pokeapi.co/api/v2/pokemon/'
 	if limit is not None and offset is not None:
-		url = url + '?limit=' + str(limit) + '&offset=' + str(offset)
+		url = url + '?limit=' + limit + '&offset=' + offset
+		for result_limit in result_limits:
+			if int(limit) != result_limit['value']:
+				result_limit['selected'] = False
+			else:
+				result_limit['selected'] = True
 
 	api_response = memcached_external_api_get(url)
 	prev_qs = {}
@@ -43,7 +49,8 @@ def view_pokedex_main():
 		next_offset_value=next_qs['offset'][0] if 'offset' in next_qs else 0,
 		prev_limit_value=prev_qs['limit'][0] if 'limit' in prev_qs else None,
 		prev_offset_value=prev_qs['offset'][0] if 'offset' in prev_qs else 0,
-		ol_start=1 if offset is None else int(offset) + 1
+		ol_start=1 if offset is None else int(offset) + 1,
+		select_options=result_limits
 	)
 
 @app.route('/pokemon/')

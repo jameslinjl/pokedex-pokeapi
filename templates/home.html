@@ -1,5 +1,19 @@
 <html>
+<head>
+  <title>Pokedex</title>
+  <link rel="icon" href="https://pokemondb.net/favicon.ico">
+</head>
 <body>
+  <h1>James's Pokedex</h1>
+  Show <select id="limit_select">
+    {% for select_option in select_options %}
+      <option value="{{ select_option['value'] }}"
+      {% if select_option['selected'] %}
+        selected
+      {% endif %}
+      >{{ select_option['value'] }}</option>
+    {% endfor %}
+  </select> Entries
   <ol start="{{ ol_start }}">
   {% for pokemon_result in pokemon_results %}
     <li>
@@ -11,7 +25,6 @@
     </li>
   {% endfor %}
   </ol>
-  <br>
   {% if prev_limit_value %}
   <a href="/?limit={{ prev_limit_value }}&offset={{ prev_offset_value }}"><< Previous</a>
   {% endif %}
@@ -19,4 +32,5 @@
   <a href="/?limit={{ next_limit_value }}&offset={{ next_offset_value }}">>> Next</a>
   {% endif %}
 </body>
+<script src="/static/home.js"></script>
 </html>
