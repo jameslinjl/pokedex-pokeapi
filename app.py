@@ -8,8 +8,6 @@ from urlparse import urlparse, parse_qs
 app = Flask(__name__)
 client = memcache.Client([('127.0.0.1', 11211)])
 
-PAGINATION_DEFAULT_LIMIT = 20
-PAGINATION_DEFAULT_OFFSET = 20
 result_limits = [{'value': 20, 'selected': True}, {'value': 100, 'selected': False}, {'value': 250, 'selected': False}]
 
 def memcached_external_api_get(url):
