@@ -2,11 +2,20 @@ import base64
 from flask import Flask, render_template, request
 import json
 import memcache
+import os
 import requests
 from urlparse import urlparse, parse_qs
 
 app = Flask(__name__)
-client = memcache.Client([('127.0.0.1', 11211)])
+
+# memcache setup
+memcached_host = os.environ.get('MEMCACHE_PORT_11211_TCP_ADDR')
+if memcached_host is None:
+	memcached_host = '127.0.0.1'
+memcached_port = os.environ.get('MEMCACHE_PORT_11211_TCP_PORT')
+if memcached_port is None:
+	memcached_port = 11211
+client = memcache.Client([(memcached_host, int(memcached_port))])
 
 result_limits = [{'value': 20, 'selected': True}, {'value': 100, 'selected': False}, {'value': 250, 'selected': False}]
 
@@ -66,3 +75,6 @@ def view_pokedex_entry():
 
 	form_dict = memcached_external_api_get('https://pokeapi.co/api/v2/pokemon-form/' + name)
 	return render_template('pokemon.html', pokemon_data=data_dict, sprite_url=form_dict['sprites']['front_default'], description=flavor_text)
+
+if __name__ == "__main__":
+	app.run(host="0.0.0.0")
