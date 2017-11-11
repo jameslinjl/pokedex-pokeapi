@@ -1,18 +1,23 @@
 # pokedex-pokeapi-memcache
 
-Playing around with flask, pokeapi, and memcached as a teaching tool for beginner web development.
+Playing around with flask, pokeapi, memcached, and docker as a teaching tool for beginner web development.
 
-Assumes that memcached is running on the same host on port 11211.
+1) Install docker for your particular machine: https://docs.docker.com/engine/installation/
 
-Make sure to install memcached for your machine.
-
-Ensure you have a memcache client module installed:
+2) Build the docker image for the app from inside the repo:
 ```bash
-pip install pylibmc
+docker build -t <YOUR_DOCKER_HUB_USERNAME>/pokedex-pokeapi-memcache .
 ```
 
-Run standard flask application:
+3) Make sure to configure memcached for docker:
 ```bash
-pip install Flask # if you haven't installed before
-FLASK_APP=app.py flask run
+docker pull memcached # pull the remote memcached docker image
+docker run --name my-memcache -d memcached # start running memcached in a container
 ```
+
+4) Start running the app using docker:
+```bash
+docker run -p 8888:5000 --link my-memcache:memcache <YOUR_DOCKER_HUB_USERNAME>/pokedex-pokeapi-memcache
+```
+
+5) Visit the local app running in container at localhost:8888.
