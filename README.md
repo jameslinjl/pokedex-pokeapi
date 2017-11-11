@@ -17,7 +17,7 @@ docker run --name my-memcache -d memcached # start running memcached in a contai
 
 4) Start running the app using docker:
 ```bash
-docker run -p 8888:80 --link my-memcache:memcache <YOUR_DOCKER_HUB_USERNAME>/pokedex-pokeapi-memcache
+docker run -p 8888:5000 --link my-memcache:memcache <YOUR_DOCKER_HUB_USERNAME>/pokedex-pokeapi-memcache
 ```
 
 5) Visit the local app running in container at localhost:8888.
